@@ -7,14 +7,15 @@ const {check, validationResult } = require('express-validator');
 // @access   Public
 router.post('/', [
     check('name', 'Name is required').not().isEmpty(),
-    check('email', 'Please include a valid email').isEmail,
+    check('email', 'Please include a valid email').isEmail(),
     check('password', 'Please enter a password with 6 or more  characters').isLength({min: 6})
     ],
     (req, res) => {
-       // const error = validationResult(req);
+       const errors = validationResult(req);
        
-       if (!error.isEmpty()) {
-              // return res.status(400).json({ errors: errors.array});
+       if (!errors.isEmpty()) {
+              console.log(errors);
+              return res.status(400).json( errors);
        }
        res.send('User route');
 });
