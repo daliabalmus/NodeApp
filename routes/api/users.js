@@ -58,21 +58,18 @@ router.post('/', [
                             id: user.id
                      }
               };
-              jwt.sign(payload, config.get("jwtToken"),
+              jwt.sign(payload, config.get("jwtSecret"),
                   {expiresIn: 360000},
                   (err,token) => {
                      if (err) throw err;
-                     res.json({ token });
+                    res.json({ token });
                   }
               );
-              
-              res.send("user registered");
+
        } catch (e) {
               console.error(e.message);
               res.status(500).send('Server error');
        }
-       
-       res.send('User route');
 });
 
 module.exports = router;
