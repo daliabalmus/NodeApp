@@ -24,7 +24,5 @@ app.use('/api/posts', require('./routes/api/posts'));
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-       console.log('Server is up and running on port numner ' + PORT);
+       console.log('Server is up and running on port number ' + PORT);
 });
-
-
