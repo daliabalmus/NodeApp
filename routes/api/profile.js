@@ -11,6 +11,7 @@ const {check, validationResult} = require('express-validator');
 // @route     GET api/profile/me
 // @desc      Get current users profile
 // @access   Private
+// http://localhost:5000/api/profile/me
 router.get('/me', auth, async (req, res) => {
         try {
                 const profile = await Profile.findOne({user: req.user.id}).populate('user', ['name', 'avatar']);
