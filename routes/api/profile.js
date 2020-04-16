@@ -77,13 +77,13 @@ router.post('/', [auth, [
                 // create
                 profile = new Profile(profileFields);
                 await profile.save();
-                res.json(profile);
+                return res.json(profile);
         } catch (e) {
                 console.error(e.message);
                 res.status(500).send('Server error');
         }
         console.log(profileFields);
-        res.send('Hello');
+        // res.send('Hello');
 });
 
 // @route     GET api/profile
