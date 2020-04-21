@@ -60,6 +60,7 @@ const EditProfile = ({profile: {profile, loading}, createProfile, getCurrentProf
         const onSubmit =  e => {
                 e.preventDefault();
                 createProfile(formData, history, true);
+                window.location.href = '/dashboard';
         }
 
         return(
