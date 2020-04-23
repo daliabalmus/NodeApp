@@ -66,12 +66,12 @@ const EditProfile = ({profile: {profile, loading}, createProfile, getCurrentProf
         return(
                 <div className='container py-5'>
                         <h1 className="large text-primary">
-                                Create Your Profile
+                                Edit Your Profile
                         </h1>
                         <p className="lead">
                                 <i className="fas fa-user"/> Let's get some information to make your
                                 profile stand out
-                        </p>ss
+                        </p>
                         <small>* = required field</small>
                         <form className="form" onSubmit={e => onSubmit(e)}>
                                 <div className="form-group">

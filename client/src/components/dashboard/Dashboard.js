@@ -5,6 +5,8 @@ import Spinner from '../layout/Spinner'
 import { getCurrentProfile } from '../../actions/profile'
 import { Link } from 'react-router-dom'
 import DashboardActions from './DashboardActions'
+import Experience from './Exprience'
+import Education from './Education'
 
 const Dashboard = ({
         getCurrentProfile,
@@ -13,7 +15,6 @@ const Dashboard = ({
         useEffect(() => {
                 getCurrentProfile();
         }, []);
-        console.log(user);
 
         return loading && profile === null ? <Spinner /> : <Fragment>
                 <div className="container pt-5">
@@ -23,7 +24,15 @@ const Dashboard = ({
                         <p className='lead'>
                                 <i className='fas fa-user'/> Welcome {user !== null ? user.name : ""}
                         </p>
-                        {profile !== null ? <Fragment><DashboardActions/></Fragment> : <Fragment>
+
+                        {profile !== null ?
+                                         <Fragment>
+                                                 <DashboardActions/>
+                                                <Experience experience={profile.experience}/>
+                                                <Education education={profile.education} />
+                                         </Fragment>
+                                :
+                                <Fragment>
                                 <p>You have not setup a profile, please add some info</p>
                                 <Link to='/create-profile' className='btn btn-primary my-1'>Create profile</Link>
                         </Fragment>}

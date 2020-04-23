@@ -54,7 +54,7 @@ const CreateProfile = ({createProfile, history}) => {
                         <p className="lead">
                                 <i className="fas fa-user"/> Let's get some information to make your
                                 profile stand out
-                        </p>ss
+                        </p>
                         <small>* = required field</small>
                         <form className="form" onSubmit={e => onSubmit(e)}>
                                 <div className="form-group">

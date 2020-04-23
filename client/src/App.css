@@ -292,7 +292,7 @@ img {
   display: block;
   width: 100%;
   border: 1px solid #ced4da;
-
+  background-color: #ffffff;
 }
 
 .form input[type='submit'], select,
@@ -739,4 +739,7 @@ a.btn-green {
  }
 .btn-outline-primary:hover i {
   color: #ffffff !important;
+}
+.btn-danger{
+  background-color: #c4302b !important;
 }
