@@ -4,12 +4,13 @@ const config = require('config');
 const router = express.Router();
 
 const auth = require('../../middleware/auth');
-const profile = require('../../models/Profile');
-const user = require('../../models/User');
+const Profile = require('../../models/Profile');
+const Post = require('../../models/Posts');
+const User = require('../../models/User');
 const {check, validationResult} = require('express-validator');
 
-// @route     GET api/profile/me
-// @desc      Get current users profile
+// @route     GET api/my-profile/me
+// @desc      Get current users my-profile
 // @access   Private
 // http://localhost:5000/api/profile/me
 router.get('/me', auth, async (req, res) => {
@@ -17,7 +18,7 @@ router.get('/me', auth, async (req, res) => {
                 const profile = await Profile.findOne({user: req.user.id}).populate('user', ['name', 'avatar']);
 
                 if (!profile) {
-                        return res.status(400).json({msg: 'There is no profile for this user'})
+                        return res.status(400).json({msg: 'There is no my-profile for this user'})
                 }
 
                 res.json(profile);
@@ -27,8 +28,8 @@ router.get('/me', auth, async (req, res) => {
 ;        }
 });
 
-// @route     POST api/profile
-// @desc      Create or update user profile
+// @route     POST api/my-profile
+// @desc      Create or update user my-profile
 // @access   Private
 router.post('/', [auth, [
                 check('status', 'Status is required').not().isEmpty(),
@@ -44,7 +45,7 @@ router.post('/', [auth, [
                         company, website, location, bio, status, githubusername, skills, youtube,facebook, twitter, instagram, linkedin
                 } = req.body;
 
-        // build profile object
+        // build my-profile object
         const profileFields = {};
         profileFields.user = req.user.id;
         if (company) profileFields.company = company;
@@ -86,49 +87,49 @@ router.post('/', [auth, [
         // res.send('Hello');
 });
 
-// @route     GET api/profile
+// @route     GET api/my-profile
 // @desc      Get all profiles
 // @access   Private
 router.get("/",async (req, res) => {
         try {
                 const profiles = await Profile.find().populate('user', ['name', 'avatar']);
-                res.json(profiles);
+                return res.json(profiles);
         } catch (err) {
                 console.error(err.message);
                 res.status(500).send('Server error');
         }
 })
 
-// @route     GET api/profile/user/:user_id
-// @desc      Get profile by user ID
+// @route     GET api/my-profile/user/:user_id
+// @desc      Get my-profile by user ID
 // @access   Private
 router.get("/user/:user_id", async (req, res) => {
         try {
                 const profile = await Profile.findOne({user: req.params.user_id}).populate('user', ['name', 'avatar']);
 
                 if(!profile) {
-                        return res.status(400).json({msg: "There is no profile for this user"});
+                        return res.status(400).json({msg: "There is no my-profile for this user"});
                 }
 
-                res.json(profile);
+               return await  res.json(profile);
         } catch (err) {
                 console.error(err.message);
                 if (err.kind == 'ObjectId') {
-                        return res.status(400).json({msg: "There is no profile for this user"});
+                        return res.status(400).json({msg: "There is no my-profile for this user"});
                 }
                 res.status(500).send('Server error');
         }
 });
 
-// @route     DELETE api/profile/user/:user_id
-// @desc      DELETE profile, user & posts
+// @route     DELETE api/my-profile/user/:user_id
+// @desc      DELETE my-profile, user & posts
 // @access   Private
 router.delete("/",auth,async (req, res) => {
         try {
-                // remove profile
-                //TODO - remove users posts
+                // remove my-profile & posts
+                await Post.deleteMany({user: req.user.id});
                 await Profile.findOneAndRemove({user: req.user.id});
-                // remove user
+                // remove userp
                 await User.findOneAndRemove({_id:  req.user.id});
                 res.json({msg: 'User deleted'});
         } catch (err) {
@@ -137,8 +138,8 @@ router.delete("/",auth,async (req, res) => {
         }
 })
 
-// @route     PUT api/profile/exierience
-// @desc      Add profile experience
+// @route     PUT api/my-profile/exierience
+// @desc      Add my-profile experience
 // @access   Private
 router.put('/experience', [auth, [
         check('title', 'Title is required').not().isEmpty(),
@@ -177,8 +178,8 @@ router.put('/experience', [auth, [
         }
 })
 
-// @route     DELETE api/profile/exierience
-// @desc      DELETE profile experience
+// @route     DELETE api/my-profile/exierience
+// @desc      DELETE my-profile experience
 // @access   Private
 router.delete('/experience/:exp_id', auth, async (req, res) => {
      try {
@@ -199,8 +200,8 @@ router.delete('/experience/:exp_id', auth, async (req, res) => {
      }
 });
 
-// @route     PUT api/profile/education
-// @desc      Add profile education
+// @route     PUT api/my-profile/education
+// @desc      Add my-profile education
 // @access   Private
 router.put('/education', [auth, [
         check('school', 'Scool is required').not().isEmpty(),
@@ -241,8 +242,8 @@ router.put('/education', [auth, [
         }
 })
 
-// @route     DELETE api/profile/education
-// @desc      DELETE profile education
+// @route     DELETE api/my-profile/education
+// @desc      DELETE my-profile education
 // @access   Private
 router.delete('/education/:educ_id', auth, async (req, res) => {
         try {
@@ -263,8 +264,8 @@ router.delete('/education/:educ_id', auth, async (req, res) => {
         }
 });
 
-// @route     GET api/profile/github/:username
-// @desc      GET profile github username
+// @route     GET api/my-profile/github/:username
+// @desc      GET my-profile github username
 // @access   Public
         router.get("/github/:username", async (req, res) => {
         try {
@@ -278,7 +279,7 @@ router.delete('/education/:educ_id', auth, async (req, res) => {
                                 console.error();
                         }
                         if (response.statusCode !== 200) {
-                                return res.status(404),json({msg: 'No github profile found'});
+                                return res.status(404),json({msg: 'No github my-profile found'});
                         }
 
                         res.json(JSON.parse(body));

@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react'
 import {Link, Router} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import Moment from 'react-moment'
+import {connect} from 'react-redux'
+import { deleteEducation } from '../../actions/profile'
 
-const Education = ({education}) => {
+const Education = ({education, deleteEducation}) => {
 
         console.log(education);
 
@@ -17,7 +19,7 @@ const Education = ({education}) => {
                         }
                         </td>
                         <td>
-                                <button className="btn btn-danger">
+                                <button className="btn btn-danger" onClick={() => {deleteEducation(educ._id)}}>
                                         Delete
                                 </button>
                         </td>
@@ -46,6 +48,7 @@ const Education = ({education}) => {
 }
 Education.propTypes = {
         education: PropTypes.array.isRequired,
+        deleteEducation: PropTypes.func.isRequired,
 }
 
-export default Education;
+export default connect(null, {deleteEducation})(Education);

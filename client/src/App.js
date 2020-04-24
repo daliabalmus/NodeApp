@@ -13,6 +13,9 @@ import Login from './components/auth/Login';
 import Alert from './components/layout/Alert'
 import PrivateRoute from './components/routing/PrivateRoute'
 import AddEducation from './components/profile-forms/AddEducation'
+import Profile from './components/my-profile/Profile'
+import UserProfile from './components/profiles/UserProfile'
+import Profiles from './components/profiles/Profiles'
 
 import {  loadUser } from './actions/auth'
 // Redux
@@ -47,6 +50,9 @@ const App = () => {
                                                 <PrivateRoute exact path="/edit-profile" component={EditProfile}/>
                                                 <PrivateRoute exact path="/add-experience" component={AddExperience}/>
                                                 <PrivateRoute exact path="/add-education" component={AddEducation}/>
+                                                <PrivateRoute exact path="/my-profile" component={Profile} />
+                                                <Route exact path="/profiles" component={Profiles} />
+                                                <Route exact path="/profile/:id" component={UserProfile} />
                                         </Switch>
                                 </section>
                         </Fragment>

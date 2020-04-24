@@ -14,6 +14,9 @@ const DashboardActions = props => {
                         <Link to="/add-education" className="btn btn-outline-primary">
                                 <i className="fas fa-graduation-cap text-primary mr-2"/> Add Education
                         </Link>
+                        <Link to="/profiles" className="btn btn-outline-primary">
+                                <i className="fas fa-code-branch text-primary mr-2"/> Connect with other devs
+                        </Link>
                 </div>
         )
 }
