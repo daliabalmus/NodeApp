@@ -215,7 +215,7 @@ export const deleteAccountAndProfile = ()=> async dispatch => {
 export const getProfiles = () => async dispatch => {
         dispatch({type:CLEAR_PROFILE});
         try  {
-                const res = await  axios.get('/api/my-profile/');
+                const res = await axios.get('/api/my-profile');
 
                 dispatch({
                         type: GET_PROFILES,
@@ -225,8 +225,8 @@ export const getProfiles = () => async dispatch => {
                 dispatch({
                         type: PROFILE_ERROR,
                         payload: {
-                                msg: err.response.statusText,
-                                status: err.response.status
+                                msg: err.message,
+                                status: err.message
                         }
                 })
         }
@@ -234,8 +234,9 @@ export const getProfiles = () => async dispatch => {
 
 // get all profiles
 export const getProfileUserId = (id) => async dispatch => {
+
         try  {
-                const res = await  axios.get(`/api/my-profile/user/${id}`);
+                const res = await  axios.get('/api/my-profile/user/' + id);
 
                 dispatch({
                         type: GET_PROFILE,

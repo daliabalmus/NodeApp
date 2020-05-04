@@ -1,4 +1,5 @@
 const  mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 const UserSchema = new mongoose.Schema({
        name: {
@@ -21,15 +22,24 @@ const UserSchema = new mongoose.Schema({
               type: Date,
               default: Date.now
        },
-       connections: {
-              type: Array
-       },
-       sentInvitations:{
-              type: Array
-       },
-       connectionRequests: {
-              type: Array
-       }
+       connections: [
+               {
+                      type: mongoose.Schema.Types.ObjectId,
+                      ref: 'user'
+               }
+        ],
+       sentInvitations:[
+              {
+                     type: mongoose.Schema.Types.ObjectId,
+                     ref: 'user'
+              }
+       ],
+       connectionRequests: [
+              {
+                     type: mongoose.Schema.Types.ObjectId,
+                     ref: 'user'
+              }
+       ]
 });
 
 module.exports = User = mongoose.model('user', UserSchema);

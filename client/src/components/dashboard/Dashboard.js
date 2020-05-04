@@ -20,7 +20,7 @@ const Dashboard = ({
         return loading && profile === null ? <Spinner /> : <Fragment>
                 <div className="container pt-5">
                         <h1 className='large text-primary'>
-                                Dashoard
+                                Dashboard
                         </h1>
                         <p className='lead'>
                                 <i className='fas fa-user'/> Welcome {user !== null ? user.name : ""}

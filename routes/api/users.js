@@ -77,35 +77,49 @@ router.post('/', [
 // @route     POST api/users/connectionRequest/:id
 // @desc      Add connections
 // @access   Private
-router.post("/connectionRequest/:id", auth, async (req, res) => {
+router.put("/connectionRequest/:id", auth, async (req, res) => {
         try {
-                const receiver = await User.findOne({_id: req.params._id});
-                const sender = await User.findOne({_id: req.user.id});
+                let sender = await User.findOne({_id: req.user.id});
+                let receiver = await User.findOne({_id: req.params.id});
 
-                const receiverConnections = receiver.connections;
-                const senderInvitations = sender.sentInvitations;
+                try {
 
-                if (receiverConnections.length > 0) {
-                        receiverConnections.map(connection => {
-                                if (connection === req.params._id)  {
-                                        return res.status(400).json({errors: [{msg: 'User already exists in your connection list!'}]});
-                                } else {
-                                        receiverConnections.unshift(connection);
-                                }
-                        });
-                } else {
-                        receiverConnections.unshift(req.params._id);
+                        if (receiver.connectionRequests.length > 0) {
+                                receiver.connectionRequests.map(connectionRequests => {
+                                        if (connectionRequests === req.user.id)  {
+                                                return res.status(400).json({errors: [{msg: 'User already exists in your connection list!'}]});
+                                        } else {
+                                                receiver.connectionRequests.push(req.user.id);
+                                        }
+                                });
+                        } else {
+                                receiver.connectionRequests.push(req.user.id);
+                        }
+                        await receiver.save();
+
+                        if (sender.sentInvitations.length > 0) {
+                                sender.sentInvitations.map(connectionRequests => {
+                                        if (connectionRequests === req.params.id)  {
+                                                return res.status(400).json({errors: [{msg: 'User already exists in your connection list!'}]});
+                                        } else {
+                                                sender.sentInvitations.push(req.params.id);
+                                        }
+                                });
+                        } else {
+                                sender.sentInvitations.push(req.params.id);
+                        }
+                        await sender.save();
+
+                        return res.json(receiver);
+
+                } catch (e) {
+                        console.error(e.message);
+                        res.status(500).send('Server error');
                 }
 
-                senderInvitations.unshift(receiverConnections);
-
-                await receiver.save();
-                await sender.save();
-
-                return res.json(receiverConnections);
         } catch (e) {
                 console.error(e.message)
-                return res.status(500).send('Server error');
+                return res.status(500).send(e.message);
         }
 });
 // @route     GET api/users/connectionRequests
