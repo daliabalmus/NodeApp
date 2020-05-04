@@ -138,6 +138,19 @@ router.get("/connectionRequests", auth, async (req, res) => {
 
 });
 
+router.get("/sentInvitations", auth, async (req, res) => {
+
+        try {
+                const user = await User.findOne({_id: req.user.id});
+
+                return res.json(user.sentInvitations);
+        } catch (err) {
+                console.error(err.message)
+                return res.status(500).send('Server error');
+        }
+
+});
+
 
 // @route     GET api/users/deleteConnectionRequests/:id
 // @desc      Delete a connection request

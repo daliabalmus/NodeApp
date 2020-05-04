@@ -92,12 +92,9 @@ router.post('/', [auth, [
 // @access   Private
 router.get("/",async (req, res) => {
         try {
-                const profilesList = [];
+
                 const profiles = await Profile.find().populate('user', ['name', 'avatar']);
 
-                for (var i = 0; i <profiles.length; i++) {
-
-                }
                 return res.json(profiles);
         } catch (err) {
                 console.error(err.message);
