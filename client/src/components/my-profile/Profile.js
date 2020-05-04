@@ -16,8 +16,6 @@ const Profile = ({
                 getCurrentProfile();
         }, []);
 
-
-        console.log(profile);
         return loading && profile === null ? <Spinner /> : <Fragment>
                 <section className="container my-5">
                         <Link to="/dashboard" className="btn btn-outline-primary mb-3">Back To Dashboard</Link>

@@ -20,6 +20,15 @@ const UserSchema = new mongoose.Schema({
        date: {
               type: Date,
               default: Date.now
+       },
+       connections: {
+              type: Array
+       },
+       sentInvitations:{
+              type: Array
+       },
+       connectionRequests: {
+              type: Array
        }
 });
 

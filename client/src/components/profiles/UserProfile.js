@@ -23,11 +23,13 @@ const UserProfile = ({
                         <section className="container my-5">
                                 <Link to="/profiles" className="btn btn-outline-primary mb-3">Back To Profiles</Link>
                                 <div className="profile-info position-relative">
+                                        <div className="btn-primary btn connect-user-button px-5">Connect</div>
                                         <div className="profile-info-box"></div>
                                         <div className="profile-info-text">
-                                                <h1 className="large text-white">{profile.user.name}</h1>
+                                                <h1 className="large text-white">{profile.user? profile.user.name : ""}</h1>
                                                 <p className="lead pt-3">{profile.status}, {" "} {profile.company}</p>
                                                 <p className="lead">{profile.location}</p>
+
                                                 {/*<div className="icons my-1">*/}
                                                 {/*        <a href="#" target="_blank" rel="noopener noreferrer">*/}
                                                 {/*                <i className="fas fa-globe fa-2x"></i>*/}

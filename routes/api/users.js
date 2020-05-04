@@ -1,3 +1,4 @@
+
 const express = require('express');
 const router = express.Router();
 const gravatar = require('gravatar');
@@ -5,6 +6,7 @@ const bcrypt = require('bcryptjs');
 
 const jwt = require('jsonwebtoken');
 const config= require('config');
+const auth = require('../../middleware/auth');
 const {check, validationResult } = require('express-validator');
 
 const User = require('../../models/User');
@@ -71,5 +73,139 @@ router.post('/', [
               res.status(500).send('Server error');
        }
 });
+
+// @route     POST api/users/connectionRequest/:id
+// @desc      Add connections
+// @access   Private
+router.post("/connectionRequest/:id", auth, async (req, res) => {
+        try {
+                const receiver = await User.findOne({_id: req.params._id});
+                const sender = await User.findOne({_id: req.user.id});
+
+                const receiverConnections = receiver.connections;
+                const senderInvitations = sender.sentInvitations;
+
+                if (receiverConnections.length > 0) {
+                        receiverConnections.map(connection => {
+                                if (connection === req.params._id)  {
+                                        return res.status(400).json({errors: [{msg: 'User already exists in your connection list!'}]});
+                                } else {
+                                        receiverConnections.unshift(connection);
+                                }
+                        });
+                } else {
+                        receiverConnections.unshift(req.params._id);
+                }
+
+                senderInvitations.unshift(receiverConnections);
+
+                await receiver.save();
+                await sender.save();
+
+                return res.json(receiverConnections);
+        } catch (e) {
+                console.error(e.message)
+                return res.status(500).send('Server error');
+        }
+});
+// @route     GET api/users/connectionRequests
+// @desc      Get all users connection requests
+// @access   Public
+router.get("/connectionRequests", auth, async (req, res) => {
+
+        try {
+                const user = await User.findOne({_id: req.user.id});
+
+                return res.json(user.connectionRequests);
+        } catch (err) {
+                console.error(err.message)
+                return res.status(500).send('Server error');
+        }
+
+});
+
+
+// @route     GET api/users/deleteConnectionRequests/:id
+// @desc      Delete a connection request
+// @access   Public
+router.delete("/deleteConnectionRequests/:id", auth, async (req, res) => {
+
+        try {
+                const sender = await User.findOne({_id: req.user.id});
+                const receiver = await User.findOne({_id: req.params._id});
+
+                receiver.connectionRequests.map(request => {
+                     if (request === req.params._id) {
+                             receiver.connectionRequests.remove(request);
+                     }
+                });
+
+                sender.sentInvitations(invitation => {
+                        if (invitation === req.params._id) {
+                                sender.connectionRequests.remove(invitation);
+                        }
+                });
+
+                await sender.save();
+                await receiver.save();
+
+                return res.json({msg: 'Request deleted'});
+        } catch (err) {
+                console.error(err.message)
+                return res.status(500).send('Server error');
+        }
+
+});
+
+
+
+// @route     GET api/users/connections
+// @desc      Get all connections from user
+// @access   Public
+router.get("/:id/connections", auth, async (req, res) => {
+
+        try {
+                const user = await User.findOne({_id: req.params._id});
+
+                return res.json(user.connections);
+        } catch (err) {
+                console.error(err.message)
+                return res.status(500).send('Server error');
+        }
+
+});
+
+// @route     GET api/users/deleteConnection
+// @desc      Delete a connection request
+// @access   Public
+router.delete("/deleteConnection/:id", auth, async (req, res) => {
+
+        try {
+                const sender = await User.findOne({_id: req.user.id});
+                const receiver = await User.findOne({_id: req.params._id});
+
+                receiver.connections.map(request => {
+                        if (request === req.params._id) {
+                                receiver.connections.remove(request);
+                        }
+                });
+
+                sender.connections(invitation => {
+                        if (invitation === req.params._id) {
+                                sender.connections.remove(invitation);
+                        }
+                });
+
+                await sender.save();
+                await receiver.save();
+
+                return res.json({msg: 'Request deleted'});
+        } catch (err) {
+                console.error(err.message)
+                return res.status(500).send('Server error');
+        }
+
+});
+
 
 module.exports = router;
