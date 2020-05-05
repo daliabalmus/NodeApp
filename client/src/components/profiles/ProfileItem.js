@@ -22,7 +22,6 @@ const ProfileItem = ({profiles}) => {
                         <Skills skills={profile.skills}/>
                 </div>
         ));
-        console.log(profiles);
         return(
                 <div className="profiles">
                         {profile}

@@ -1,3 +1,4 @@
+const Profile = require('../../models/Profile');
 
 const express = require('express');
 const router = express.Router();
@@ -130,7 +131,12 @@ router.get("/connectionRequests", auth, async (req, res) => {
         try {
                 const user = await User.findOne({_id: req.user.id});
 
-                return res.json(user.connectionRequests);
+                const connectionRequests = user.connectionRequests;
+
+                const profiles = await Profile.find({user: {$in:connectionRequests}}).populate('user', ['name','avatar']);
+
+                return res.json(profiles);
+
         } catch (err) {
                 console.error(err.message)
                 return res.status(500).send('Server error');

@@ -13,9 +13,15 @@ const Navbar = ({auth: {isAuthenticated, loading}, logout}) => {
                                         <i className="fas fa-user"></i>{' '}
                                         Dashboard</Link>
                         </li>
+                        <li className="nav-item">
+                                <Link to="/my-requests">
+                                        <i className="fas fa-user-plus"/>{' '}
+                                        My requests
+                                </Link>
+                        </li>
                         <li className="nav-item active">
                                 <Link to="/my-profile">
-                                        <i className="fas fa-user-plus"></i>{' '}
+                                        <i className="fas fa-id-card"></i>{' '}
                                         My profile</Link>
                         </li>
                         <li className="nav-item active">

@@ -30,7 +30,7 @@ const Experience = ({experience,deleteExperience}) => {
         return(
                 <div className='pt-5'>
                         <h2 className="my-2">Experience Credentials</h2>
-                        <table className="table">
+                        <table className="table bg-white">
                                 <thead>
                                 <tr>
                                         <th>Company</th>
