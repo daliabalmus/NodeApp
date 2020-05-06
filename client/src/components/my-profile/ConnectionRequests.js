@@ -1,26 +1,27 @@
 import React, { Fragment, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
-import { getCurrentProfile } from '../../actions/profile'
 import { connect } from 'react-redux'
 import Spinner from '../layout/Spinner'
 import ConnectionRequest from './ConnectionRequest'
+import { getConnectionRequests } from '../../actions/user'
 
 const ConnectionRequests = ({
         // getCurrentProfile,
+        getConnectionRequests,
         auth: {user},
+        profile: {profile},
+        connections
        }) => {
         // profile: {profile, loading}}) => {
         useEffect(() => {
                 // getCurrentProfile();
+                getConnectionRequests();
         }, []);
 
-        console.log(user);
+        console.log(connections);
 
         return user === null ? <Spinner /> : <Fragment>
                 <section className="container my-5">
-
-
 
                         <div className="container my-5">
                                 <h1 className="large text-primary">Your connection requests</h1>
@@ -31,19 +32,23 @@ const ConnectionRequests = ({
                         </div>
 
                         <div className="my-4">
-                                <ConnectionRequest />
+                                <ConnectionRequest connections={connections} />
                         </div>
                 </section>
         </Fragment>
 }
 
 ConnectionRequests.propTypes = {
-        getCurrentProfile: PropTypes.func.isRequired,
+        // getCurrentProfile: PropTypes.func.isRequired,
         auth: PropTypes.object.isRequired,
-        // profile: PropTypes.object.isRequired,
+        profile: PropTypes.object.isRequired,
+        connections: PropTypes.array.isRequired,
+        getConnectionRequests: PropTypes.func.isRequired,
 };
 const mapStateToProps = state => ({
         auth: state.auth,
-        // profile: state.profile
+        connections: state.users.connections,
+        // connections: state.connections,
+        profile: state.profile
 });
-export default connect(mapStateToProps, {})(ConnectionRequests);
+export default connect(mapStateToProps, {getConnectionRequests})(ConnectionRequests);

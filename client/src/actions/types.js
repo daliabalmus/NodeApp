@@ -11,8 +11,12 @@ export const GET_PROFILE = 'GET_PROFILE';
 export const GET_PROFILES = 'GET_PROFILES';
 export const PROFILE_ERROR = 'PROFILE_ERROR';
 export const CLEAR_PROFILE = 'CLEAR_PROFILE';
-export const SEND_REQUEST = 'SEND_REQUEST';
 
 export const UPDATE_PROFILE = 'UPDATE_PROFILE';
 export const DELETE_ACCOUNT = 'DELETE_ACCOUNT';
+
+export const SEND_REQUEST = 'SEND_REQUEST';
+export const REQUEST_ERROR = 'REQUEST_ERROR';
+export const GET_REQUESTS = 'GET_REQUESTS';
+export const GET_INVITATIONS = 'GET_INVITATIONS';
 

@@ -17,6 +17,10 @@ const DashboardActions = props => {
                         <Link to="/profiles" className="btn btn-outline-primary">
                                 <i className="fas fa-code-branch text-primary mr-2"/> Connect with other devs
                         </Link>
+                        <Link to="/sent-invitations" className="btn btn-outline-primary">
+                                <i className="fas fa-code-branch text-primary mr-2"/> View sent invitiations
+                        </Link>
+
                 </div>
         )
 }

@@ -147,9 +147,14 @@ router.get("/connectionRequests", auth, async (req, res) => {
 router.get("/sentInvitations", auth, async (req, res) => {
 
         try {
+
                 const user = await User.findOne({_id: req.user.id});
 
-                return res.json(user.sentInvitations);
+                const sentInvitations = user.sentInvitations;
+
+                const profiles = await Profile.find({user: {$in:sentInvitations}}).populate('user', ['name','avatar']);
+
+                return res.json(profiles);
         } catch (err) {
                 console.error(err.message)
                 return res.status(500).send('Server error');

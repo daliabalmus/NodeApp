@@ -17,6 +17,7 @@ import Profile from './components/my-profile/Profile'
 import UserProfile from './components/profiles/UserProfile'
 import Profiles from './components/profiles/Profiles'
 import ConnectionRequests from './components/my-profile/ConnectionRequests'
+import SentInvitations from './components/my-profile/SentInvitations'
 import {  loadUser } from './actions/auth'
 // Redux
 import {Provider} from 'react-redux';
@@ -51,7 +52,10 @@ const App = () => {
                                                 <PrivateRoute exact path="/add-experience" component={AddExperience}/>
                                                 <PrivateRoute exact path="/add-education" component={AddEducation}/>
                                                 <PrivateRoute exact path="/my-profile" component={Profile} />
-                                                <Route exact path="/my-requests" component={ConnectionRequests} />
+
+                                                <PrivateRoute exact path="/my-requests" component={ConnectionRequests} />
+                                                <PrivateRoute exact path="/sent-invitations" component={SentInvitations} />
+
                                                 <PrivateRoute exact path="/profiles" component={Profiles} />
                                                 <PrivateRoute exact path="/profile/:id" component={UserProfile} />
                                         </Switch>
