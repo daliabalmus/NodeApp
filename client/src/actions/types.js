@@ -18,5 +18,11 @@ export const DELETE_ACCOUNT = 'DELETE_ACCOUNT';
 export const SEND_REQUEST = 'SEND_REQUEST';
 export const REQUEST_ERROR = 'REQUEST_ERROR';
 export const GET_REQUESTS = 'GET_REQUESTS';
+export const GET_CONNECTIONS = 'GET_CONNECTIONS';
 export const GET_INVITATIONS = 'GET_INVITATIONS';
+export const ACCEPT_INVITATIONS = 'ACCEPT_INVITATIONS';
+
+// posts
+export const GET_POSTS = 'GET_POSTS';
+export const POSTS_ERROR = 'POSTS_ERROR';
 

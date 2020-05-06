@@ -123,6 +123,69 @@ router.put("/connectionRequest/:id", auth, async (req, res) => {
                 return res.status(500).send(e.message);
         }
 });
+
+// @route     POST api/users/acceptConnection/:id
+// @desc      Accept connections
+// @access   Private
+router.put("/acceptConnection/:id", auth, async (req, res) => {
+        try {
+                const currentUserId = req.user.id;
+                const receiverUserId = req.params.id;
+
+                let currentUser = await User.findOne({_id: currentUserId}); // current
+                let receiver = await User.findOne({_id: receiverUserId});
+
+                try {
+                        if (currentUser.connections.length > 0) {
+                                currentUser.connections.map(connectionId => {
+                                        if (connectionId === receiverUserId)  {
+                                                return res.status(400).json({errors: [{msg: 'User already exists in your connection list!'}]});
+                                        } else {
+                                                currentUser.connections.push(receiverUserId);
+                                        }
+                                });
+                        }else {
+                                currentUser.connections.push(receiverUserId);
+                        }
+
+                        const index1 = currentUser.connectionRequests.indexOf(receiverUserId);
+                        if (index1 > -1) {
+                                currentUser.connectionRequests.splice(index1, 1);
+                        }
+                        await currentUser.save();
+
+                        if (receiver.connections.length > 0) {
+                                receiver.connections.map(connectionId => {
+                                        if (connectionId === currentUserId)  {
+                                                return res.status(400).json({errors: [{msg: 'User already exists in your connection list!'}]});
+                                        } else {
+                                                receiver.connections.push(currentUserId);
+                                        }
+                                });
+                        }else {
+                                receiver.connections.push(currentUserId);
+                        }
+
+                        const index0 = receiver.sentInvitations.indexOf(currentUserId);
+                        if (index0 > -1) {
+                                receiver.sentInvitations.splice(index0, 1);
+                        }
+
+                        await receiver.save();
+
+                        return res.json({msg: "Request accepted"});
+
+                } catch (e) {
+                        console.error(e.message);
+                        res.status(500).send('Server error');
+                }
+
+        } catch (e) {
+                console.error(e.message)
+                return res.status(500).send(e.message);
+        }
+});
+
 // @route     GET api/users/connectionRequests
 // @desc      Get all users connection requests
 // @access   Public
@@ -200,12 +263,17 @@ router.delete("/deleteConnectionRequests/:id", auth, async (req, res) => {
 // @route     GET api/users/connections
 // @desc      Get all connections from user
 // @access   Public
-router.get("/:id/connections", auth, async (req, res) => {
+router.get("/connections", auth, async (req, res) => {
 
         try {
-                const user = await User.findOne({_id: req.params._id});
+                const user = await User.findOne({_id: req.user.id});
 
-                return res.json(user.connections);
+                const connections = user.connections;
+
+                const profiles = await Profile.find({user: {$in:connections}}).populate('user', ['name','avatar']);
+
+                return res.json(profiles);
+
         } catch (err) {
                 console.error(err.message)
                 return res.status(500).send('Server error');

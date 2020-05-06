@@ -18,7 +18,7 @@ const Dashboard = ({
         }, []);
 
         return loading && profile === null ? <Spinner /> : <Fragment>
-                <div className="container pt-5">
+                <div className="container py-5">
                         <h1 className='large text-primary'>
                                 Dashboard
                         </h1>
@@ -28,7 +28,7 @@ const Dashboard = ({
 
                         {profile !== null ?
                                          <Fragment>
-                                                 <DashboardActions/>
+                                                 <DashboardActions userId={profile.user._id}/>
                                                 <Experience experience={profile.experience}/>
                                                 <Education education={profile.education} />
 

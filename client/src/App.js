@@ -18,6 +18,7 @@ import UserProfile from './components/profiles/UserProfile'
 import Profiles from './components/profiles/Profiles'
 import ConnectionRequests from './components/my-profile/ConnectionRequests'
 import SentInvitations from './components/my-profile/SentInvitations'
+import UserConnections from './components/my-profile/UserConnections'
 import {  loadUser } from './actions/auth'
 // Redux
 import {Provider} from 'react-redux';
@@ -25,6 +26,7 @@ import store from './store'
 
 import './App.css';
 import setAuthToken from './utils/setAuthToken'
+import Posts from './components/posts/Posts'
 
 if (localStorage.token) {
         setAuthToken(localStorage.token);
@@ -58,6 +60,8 @@ const App = () => {
 
                                                 <PrivateRoute exact path="/profiles" component={Profiles} />
                                                 <PrivateRoute exact path="/profile/:id" component={UserProfile} />
+                                                <PrivateRoute exact path="/user/connections" component={UserConnections} />
+                                                <PrivateRoute exact path="/posts" component={Posts} />
                                         </Switch>
                                 </section>
                         </Fragment>

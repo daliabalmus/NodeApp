@@ -199,7 +199,7 @@ img {
 .bg-primary,
 .badge-primary,
 .alert-primary {
-  background: var(--primary-color);
+  background: var(--primary-color) !important;
   color: #fff;
 }
 
@@ -207,7 +207,7 @@ img {
 .bg-light,
 .badge-light,
 .alert-light {
-  background: var(--light-color);
+  background: var(--light-color) !important;
   color: #333;
 }
 
@@ -215,7 +215,7 @@ img {
 .bg-dark,
 .badge-dark,
 .alert-dark {
-  background: var(--dark-color);
+  background: var(--dark-color) !important;
   color: #fff;
 }
 
@@ -796,4 +796,7 @@ a.btn-green {
 }
 .btn-danger{
   background-color: #c4302b !important;
+}
+.cursor-pointer {
+  cursor: pointer !important;
 }

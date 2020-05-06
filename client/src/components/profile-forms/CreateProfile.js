@@ -118,7 +118,7 @@ const CreateProfile = ({createProfile, history}) => {
                                 </div>
 
                                 <div className="my-2">
-                                        <button type="button" className="btn btn-light" onClick={() => toggleSocialInputs(!displaySocialInputs)}>
+                                        <button type="button" className="btn btn-primary" onClick={() => toggleSocialInputs(!displaySocialInputs)}>
                                                 Add Social Network Links
                                         </button>
                                         <span>Optional</span>

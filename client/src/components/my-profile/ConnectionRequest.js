@@ -1,8 +1,13 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { acceptConnection } from '../../actions/user'
 
 
-const ConnectionRequest = ({connections}) => {
+const ConnectionRequest = ({connections, acceptConnection}) => {
+        const acceptInvitation = (id) => {
+                acceptConnection(id);
+        }
         const profile = connections.map((connection, i) => (
                 <div key={connection._id} className="profile bg-white border box-shadow">
                         <img
@@ -18,8 +23,8 @@ const ConnectionRequest = ({connections}) => {
                                         <Link to={"/profile/" + connection.user._id} className="btn btn-outline-primary">View Profile</Link>
                                 </div>
                                 <div className="text-center">
-                                        <Link to="/my-profile" className="btn btn-sm btn-primary mb-3">Accept request</Link>
-                                        <Link to="/my-profile" className="btn btn-sm btn-dark">Delete request</Link>
+                                        <div className="btn btn-sm btn-primary mb-3" onClick={e => {acceptInvitation(connection.user._id)}}>Accept request</div>
+                                        <div className="btn btn-sm btn-dark">Delete request</div>
                                 </div>
 
 
@@ -36,4 +41,6 @@ const ConnectionRequest = ({connections}) => {
 ConnectionRequest.propTypes = {
 
 }
-export default ConnectionRequest;
+
+
+export default connect(null, {acceptConnection})(ConnectionRequest);
