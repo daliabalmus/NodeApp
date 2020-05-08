@@ -27,7 +27,7 @@ const Posts = (
                                 <div className="text-primary mt-5 mb-3">
                                         <h6 className="mb-0">Say Something...</h6>
                                 </div>
-                                <form className="form mb-5">
+                                <form className="form mb-5" action="">
                                         <textarea className="form-control mb-3" name="text" cols="30" rows="5" placeholder="Create a post" required/>
                                         <button type="submit" className="btn btn-primary btn-lg my-1">Submit</button>
                                 </form>

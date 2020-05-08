@@ -7,6 +7,7 @@ import Moment from 'react-moment'
 const Post = ({posts, auth}) => {
         console.log(auth.user);
         console.log(posts);
+
         const postItems = posts.map(post => (
                 <div className="post border bg-white p-4 box-shadow mb-4" key={post._id}>
                         <div>
@@ -44,13 +45,12 @@ const Post = ({posts, auth}) => {
                                                 </Link>
                                         </div>
 
-                                        {/*{auth.user._id === post.user ?*/}
-                                        {/*        <Fragment>*/}
-                                        {/*                <div className="text-danger cursor-pointer">*/}
-                                        {/*                        Delete this post*/}
-                                        {/*                </div>*/}
-                                        {/*        </Fragment> : ""*/}
-                                        {/*}*/}
+                                        { !auth.loading && post.user === auth.user._id && (
+                                                <div className="text-danger cursor-pointer">
+                                                        Delete this post
+                                                </div>
+                                        )
+                                        }
                                 </div>
 
 
