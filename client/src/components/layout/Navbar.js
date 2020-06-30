@@ -6,79 +6,83 @@ import { logout } from '../../actions/auth'
 
 const Navbar = ({auth: {isAuthenticated, loading}, logout}) => {
 
-        const authLinks = (
-                <ul className="navbar-nav ml-auto">
-                        <li className="nav-item active">
-                                <Link to="/dashboard">
-                                        <i className="fas fa-user"></i>{' '}
-                                        Dashboard</Link>
-                        </li>
-                        <li className="nav-item active">
-                                <Link to="/posts">
-                                        <i className="fas fa-sticky-note"/>{' '}
-                                        Posts</Link>
-                        </li>
-                        <li className="nav-item">
-                                <Link to="/my-requests">
-                                        <i className="fas fa-user-plus"/>{' '}
-                                        My requests
-                                </Link>
-                        </li>
-                        <li className="nav-item active">
-                                <Link to="/my-profile">
-                                        <i className="fas fa-id-card"></i>{' '}
-                                        My profile</Link>
-                        </li>
-                        <li className="nav-item active">
-                                <Link onClick={logout} to="#!">
-                                        <i className="fas fa-sign-out-alt"/>{' '}
-                                        <span className="hide-sm">Logout</span>
-                                </Link>
-                        </li>
-                </ul>
-        );
+    console.log(window.location.pathname === "/");
+    let displayNavbar = "navbar navbar-expand-lg navbar-light bg-dark ";
 
-        const guestLiks = (
-                <ul className="navbar-nav ml-auto">
-                        <li className="nav-item active">
-                                <Link to="profiles">Developers</Link>
-                        </li>
-                        <li className="nav-item">
-                                <Link to="register">Register</Link>
-                        </li>
-                        <li className="nav-item">
-                                <Link to="login">Login</Link>
-                        </li>
+    if (window.location.pathname === "/") {
+        displayNavbar += "position-fixed"
+    } else {
+        displayNavbar += "position-relative"
+    }
 
-                </ul>
-        );
+    const authLinks = (
+        <ul className="navbar-nav ml-auto">
+            <li className="nav-item active">
+                <Link to="/dashboard">
+                    <i className="fas fa-user"></i>{' '}
+                    Dashboard</Link>
+            </li>
+            <li className="nav-item active">
+                <Link to="/posts">
+                    <i className="fas fa-sticky-note"/>{' '}
+                    Posts</Link>
+            </li>
+            <li className="nav-item">
+                <Link to="/my-requests">
+                    <i className="fas fa-user-plus"/>{' '}
+                    My requests
+                </Link>
+            </li>
+            <li className="nav-item active">
+                <Link to="/my-profile">
+                    <i className="fas fa-id-card"></i>{' '}
+                    My profile</Link>
+            </li>
+            <li className="nav-item active">
+                <Link onClick={logout} to="#!">
+                    <i className="fas fa-sign-out-alt"/>{' '}
+                    <span className="hide-sm">Logout</span>
+                </Link>
+            </li>
+        </ul>
+    );
 
-        return(
+    const guestLiks = (
+        <ul className="navbar-nav ml-auto">
+            <li className="nav-item active">
+                <Link to="profiles">Developers</Link>
+            </li>
+            <li className="nav-item">
+                <Link to="register">Register</Link>
+            </li>
+            <li className="nav-item">
+                <Link to="login">Login</Link>
+            </li>
 
+        </ul>
+    );
 
-                        <nav className="navbar navbar-expand-lg navbar-light bg-dark">
-                                <Link className="navbar-brand text-white" to="/"><i className="fas fa-code"/> DevConnector</Link>
-                                <button className="navbar-toggler" type="button" data-toggle="collapse"
-                                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                                        aria-expanded="false" aria-label="Toggle navigation">
-                                        <span className="navbar-toggler-icon"></span>
-                                </button>
+    return(
 
-                                <div className="collapse navbar-collapse" id="navbarSupportedContent">
+        <nav className={displayNavbar}>
+            <Link className="navbar-brand text-white" to="/"><i className="fas fa-code"/> DevConnector</Link>
+            <button className="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span className="navbar-toggler-icon"></span>
+            </button>
 
-                                        {!loading && (<Fragment>{isAuthenticated ? authLinks : guestLiks}</Fragment>)}
-                                </div>
-                        </nav>
-
-
-
-        )
+            <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                {!loading && (<Fragment>{isAuthenticated ? authLinks : guestLiks}</Fragment>)}
+            </div>
+        </nav>
+    )
 }
 Navbar.propTypes = {
-        logout: PropTypes.func.isRequired,
-        auth: PropTypes.object.isRequired,
+    logout: PropTypes.func.isRequired,
+    auth: PropTypes.object.isRequired,
 }
 const mapStateToProps = state => ({
-        auth: state.auth
+    auth: state.auth
 })
 export default connect(mapStateToProps, {logout})(Navbar);

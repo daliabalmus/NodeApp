@@ -9,9 +9,9 @@ import Education from './Education'
 import Skills from './Skills'
 
 const Profile = ({
-        getCurrentProfile,
-        auth: {user},
-        profile: {profile, loading}}) => {
+                 getCurrentProfile,
+                 auth: {user},
+                 profile: {profile, loading}}) => {
         useEffect(() => {
                 getCurrentProfile();
         }, []);
@@ -22,53 +22,29 @@ const Profile = ({
 
 
                         <div className="profile-info position-relative">
-                                <div className="profile-info-box"></div>
+                                <div className="profile-info-box"/>
                                 <div className="profile-info-text">
                                         <h1 className="large text-white">{user.name ? user.name : ""}</h1>
                                         <p className="lead pt-3">{profile.status}, {" "} {profile.company}</p>
                                         <p className="lead">{profile.location}</p>
-                                        {/*<div className="icons my-1">*/}
-                                        {/*        <a href="#" target="_blank" rel="noopener noreferrer">*/}
-                                        {/*                <i className="fas fa-globe fa-2x"></i>*/}
-                                        {/*        </a>*/}
-                                        {/*        <a href="#" target="_blank" rel="noopener noreferrer">*/}
-                                        {/*                <i className="fab fa-twitter fa-2x"></i>*/}
-                                        {/*        </a>*/}
-                                        {/*        <a href="#" target="_blank" rel="noopener noreferrer">*/}
-                                        {/*                <i className="fab fa-facebook fa-2x"></i>*/}
-                                        {/*        </a>*/}
-                                        {/*        <a href="#" target="_blank" rel="noopener noreferrer">*/}
-                                        {/*                <i className="fab fa-linkedin fa-2x"></i>*/}
-                                        {/*        </a>*/}
-                                        {/*        <a href="#" target="_blank" rel="noopener noreferrer">*/}
-                                        {/*                <i className="fab fa-youtube fa-2x"></i>*/}
-                                        {/*        </a>*/}
-                                        {/*        <a href="#" target="_blank" rel="noopener noreferrer">*/}
-                                        {/*                <i className="fab fa-instagram fa-2x"></i>*/}
-                                        {/*        </a>*/}
-                                        {/*</div>*/}
                                 </div>
                                 <img
-                                        className="round-img my-1"
-                                        src={user.avatar}
-                                        alt=""
+                                    className="round-img my-1"
+                                    src={user.avatar}
+                                    alt=""
                                 />
                         </div>
 
                         <div className="my-4">
-
-
-
-
-                                        <div className="bg-white border p-4 box-shadow text-center mt-4">
-                                                <h3 className="text-primary">{user.name ? user.name : ""}'s Bio</h3>
-                                                <p className="w-75 mx-auto">
-                                                        {profile.bio}
-                                                </p>
-                                                <div className="line"></div>
-                                                <h3 className="text-primary">Skill Set</h3>
-                                               <Skills skills={profile.skills}/>
-                                        </div>
+                                <div className="bg-white border p-4 box-shadow text-center mt-4">
+                                        <h3 className="text-primary">{user.name ? user.name : ""}'s Bio</h3>
+                                        <p className="w-75 mx-auto">
+                                                {profile.bio}
+                                        </p>
+                                        <div className="line"></div>
+                                        <h3 className="text-primary">Skill Set</h3>
+                                        <Skills skills={profile.skills}/>
+                                </div>
 
                                 <div className="row equal">
                                         <div className="col-md-6 h-100">

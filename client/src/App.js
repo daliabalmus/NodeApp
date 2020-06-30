@@ -36,11 +36,12 @@ const App = () => {
         useEffect(() => {
                 store.dispatch(loadUser());
         }, []);
+
         return(
         <Provider store={store}>
                 <Router>
                         <Fragment>
-                                <Navbar/>
+                                <Navbar />
                                 <Route exact path="/" component={Landing}/>
 
                                 <section className="bg-light-gray">

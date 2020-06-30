@@ -58,7 +58,7 @@ const CreateProfile = ({createProfile, history}) => {
                         <small>* = required field</small>
                         <form className="form" onSubmit={e => onSubmit(e)}>
                                 <div className="form-group">
-                                        <select name="status" className='py-3 px-2 text-muted' value={status} onChange={e => onChange(e)}>
+                                        <select name="status" className='text-muted' value={status} onChange={e => onChange(e)}>
                                                 <option value="0">* Select Professional Status</option>
                                                 <option value="Developer">Developer</option>
                                                 <option value="Junior Developer">Junior Developer</option>
