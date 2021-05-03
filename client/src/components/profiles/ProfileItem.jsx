@@ -7,12 +7,12 @@ import Skills from "./Skills";
 const ProfileItem = ({ profiles }) => {
   const profile = profiles.map((profile) => (
     <div key={profile._id} className="profile bg-white border box-shadow">
-      <img className="round-img" src={profile.user.avatar} alt="" />
+      <img className="round-img" src={profile.user?.avatar} alt="" />
       <div>
-        <h2>{profile.user.name}</h2>
+        <h2>{profile.user?.name}</h2>
         <p>{profile.status}</p>
         <p>{profile.location}</p>
-        <Link to={"/profile/" + profile.user._id} className="btn btn-primary">
+        <Link to={"/profile/" + profile.user?._id} className="btn btn-primary">
           View Profile
         </Link>
       </div>

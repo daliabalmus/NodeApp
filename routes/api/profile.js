@@ -109,21 +109,30 @@ router.post(
 
       return res.json(profile);
     } catch (e) {
-      console.error(e.message);
       res.status(500).send("Server error");
     }
-    // res.send('Hello');
   }
 );
 
 // @route     GET api/my-profile
 // @desc      Get all profiles
 // @access   Private
-router.get("/", async (req, res) => {
+router.get("/", auth, async (req, res) => {
   try {
     const profiles = await Profile.find().populate("user", ["name", "avatar"]);
+    // const getMyProfile = await Profile.findOne({ user: req.user.id });
+    const allUsers = await User.find();
 
-    return res.json(profiles);
+    // get all users that are not in my connection list
+    // TODO
+
+    // console.log(getMyProfile.toString());
+
+    const filteredProfiles = profiles.filter((profile) => {
+      return profile.user._id.toString() !== req.user.id.toString();
+    });
+
+    return res.json(filteredProfiles);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server error");

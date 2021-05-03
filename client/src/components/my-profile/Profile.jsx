@@ -29,7 +29,7 @@ const Profile = ({
         <div className="profile-info position-relative">
           <div className="profile-info-box" />
           <div className="profile-info-text">
-            <h1 className="large text-white">{user.name ? user.name : ""}</h1>
+            <h1 className="large text-white">{user ? user?.name : ""}</h1>
             <p className="lead pt-3">
               {profile.status}, {profile.company}
             </p>
