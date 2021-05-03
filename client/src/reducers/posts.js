@@ -1,30 +1,28 @@
-import {
-        GET_POSTS, POSTS_ERROR
-} from '../actions/types'
+import { GET_POSTS, POSTS_ERROR } from "../actions/types";
 
 const initialState = {
-        posts:[],
-        loading: true,
-        error: {}
-}
+  posts: [],
+  loading: true,
+  error: {},
+};
 
 export default function (state = initialState, action) {
-        const {type, payload} = action;
+  const { type, payload } = action;
 
-        switch (type) {
-                case GET_POSTS:
-                        return {
-                                ...state,
-                                posts: payload,
-                                loading: false
-                        };
-                case POSTS_ERROR:
-                        return {
-                                ...state,
-                                error: payload,
-                                loading: false
-                        };
-                default:
-                        return state;
-        }
+  switch (type) {
+    case GET_POSTS:
+      return {
+        ...state,
+        posts: payload,
+        loading: false,
+      };
+    case POSTS_ERROR:
+      return {
+        ...state,
+        error: payload,
+        loading: false,
+      };
+    default:
+      return state;
+  }
 }

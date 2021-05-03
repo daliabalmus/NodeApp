@@ -1,15 +1,7 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from "react";
 
-
-const CreateProfile = props => {
-        return(
-                <div>
-
-                </div>
-        )
-}
-CreateProfile.propTypes = {
-
-}
+const CreateProfile = () => {
+  return <div></div>;
+};
+CreateProfile.propTypes = {};
 export default CreateProfile;
