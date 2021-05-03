@@ -25,6 +25,7 @@ import store from "./store";
 import "./App.css";
 import setAuthToken from "./utils/setAuthToken";
 import Posts from "./components/posts/Posts";
+import Alert from "./components/layout/Alert";
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -43,7 +44,7 @@ const App = () => {
           <Route exact path="/" component={Landing} />
 
           <section className="bg-light-gray">
-            {/*<Alert />*/}
+            <Alert />
 
             <Switch>
               <Route exact path="/register" component={Register} />

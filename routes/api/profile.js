@@ -41,7 +41,7 @@ router.post(
     auth,
     [
       check("status", "Status is required").not().isEmpty(),
-      check("skills", "Skills is required").not().isEmpty(),
+      check("skills", "Skills are required").not().isEmpty(),
     ],
   ],
   async (req, res) => {
@@ -75,7 +75,11 @@ router.post(
     if (status) profileFields.status = status;
     if (githubusername) profileFields.githubusername = githubusername;
     if (skills) {
-      profileFields.skills = skills.split(",").map((skill) => skill.trim());
+      if (Array.isArray(skills)) {
+        profileFields.skills = skills;
+      } else {
+        profileFields.skills = skills.split(",").map((skill) => skill.trim());
+      }
     }
 
     // build social object
@@ -102,12 +106,12 @@ router.post(
       // create
       profile = new Profile(profileFields);
       await profile.save();
+
       return res.json(profile);
     } catch (e) {
       console.error(e.message);
       res.status(500).send("Server error");
     }
-    console.log(profileFields);
     // res.send('Hello');
   }
 );

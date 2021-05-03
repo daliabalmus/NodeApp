@@ -36,6 +36,7 @@ export const createProfile = (formData, history, edit = false) => async (
 ) => {
   try {
     const config = {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
@@ -47,6 +48,43 @@ export const createProfile = (formData, history, edit = false) => async (
     });
 
     dispatch(setAlert(edit ? "Profile updated" : "Profile created", "success"));
+
+    history.push("/dashboard");
+  } catch (err) {
+    console.log(err);
+
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
+    }
+
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: {
+        msg: err.response.statusText,
+        status: err.response.status,
+      },
+    });
+  }
+};
+
+// EDIT PROFILE
+export const editProfile = (formData, history) => async (dispatch) => {
+  try {
+    const config = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const res = await axios.put("/api/my-profile", formData, config);
+    dispatch({
+      type: GET_PROFILE,
+      payload: res.data,
+    });
+
+    dispatch(setAlert("Profile updated", "success"));
 
     history.push("/dashboard");
   } catch (err) {
