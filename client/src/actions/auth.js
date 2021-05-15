@@ -22,18 +22,20 @@ export const handleRefreshToken = async (refreshToken, dispatch) => {
   const body = JSON.stringify({ token: refreshToken });
 
   try {
-    const res = await axios.post("/api/auth/refreshAccessToken", body, config);
+    const res = await axios.post(
+      "https://mern-dev-connector-api.herokuapp.com/api/auth/refreshAccessToken",
+      body,
+      config
+    );
 
     localStorage.setItem("token", res.data.accessToken);
 
-    // if (res) {
     return res.data.accessToken;
-    // }
   } catch (err) {
     localStorage.removeItem("refreshToken");
-    // dispatch({
-    //   type: AUTH_ERROR,
-    // });
+    dispatch({
+      type: AUTH_ERROR,
+    });
   }
 };
 
@@ -41,17 +43,22 @@ export const getAccessToken = async (dispatch) => {
   let accessToken = localStorage.getItem("token");
   const refreshToken = localStorage.getItem("refreshToken");
 
-  const decoded = jwt_decode(accessToken);
-  const { exp } = decoded;
+  if (!jwt_decode) return;
+  try {
+    const decoded = jwt_decode(accessToken);
+    const { exp } = decoded;
 
-  if (exp < (new Date().getTime() + 1) / 1000) {
-    // token is expired
-    accessToken = await handleRefreshToken(refreshToken, dispatch);
-    return accessToken;
-  } else {
-    // token is still valid
-    console.log("token is not expired");
-    return accessToken;
+    if (exp < (new Date().getTime() + 1) / 1000) {
+      // token is expired
+      accessToken = await handleRefreshToken(refreshToken, dispatch);
+      return accessToken;
+    } else {
+      // token is still valid
+      console.log("token is not expired");
+      return accessToken;
+    }
+  } catch (e) {
+    console.log(e);
   }
 };
 
@@ -117,6 +124,7 @@ export const login = (email, password) => async (dispatch) => {
   const config = {
     headers: {
       "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
     },
   };
 
@@ -130,7 +138,7 @@ export const login = (email, password) => async (dispatch) => {
     });
     dispatch(loadUser());
   } catch (err) {
-    const errors = err.response.data.errors;
+    const errors = err.response?.data?.errors;
 
     if (errors) {
       errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));

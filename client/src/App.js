@@ -30,6 +30,8 @@ import Alert from "./components/layout/Alert";
 if (localStorage.token) {
   setAuthToken(localStorage.token);
 }
+console.log(window)
+console.log(process.env)
 
 const App = () => {
   useEffect(() => {

@@ -7,6 +7,9 @@ const jwt = require("jsonwebtoken");
 const config = require("config");
 const bcrypt = require("bcryptjs");
 const { check, validationResult } = require("express-validator");
+
+const refreshTokens = [];
+
 // @route     GET api/auth
 // @desc      Test route
 // @access   Public
@@ -14,7 +17,7 @@ router.get("/", auth, async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select("-password");
     res.json(user);
-  } catch (e) {
+  } catch (err) {
     console.log(err.message);
     res.status(500).json({ msg: "server error" });
   }
@@ -59,22 +62,46 @@ router.post(
 
       const payload = {
         user: {
-          id: user.id,
+          id: user._id,
         },
       };
-      jwt.sign(
-        payload,
-        config.get("jwtSecret"),
-        { expiresIn: 3600000000 },
-        (err, token) => {
-          if (err) throw err;
-          res.json({ token });
-        }
-      );
+
+      const accessToken = jwt.sign(payload, config.get("jwtSecret"), {
+        expiresIn: "20s",
+      });
+      const refreshToken = jwt.sign(payload, config.get("jwtSecret"), {
+        expiresIn: "1d",
+      });
+
+      refreshTokens.push(refreshToken);
+
+      return res.json({ token: accessToken, refreshToken });
     } catch (e) {
       console.error(e.message);
       res.status(500).send("Server error");
     }
   }
 );
+
+router.post("/refreshAccessToken", async (req, res) => {
+  const refreshToken = req.body.token;
+  if (!refreshToken) {
+    return res.status(403).json({ msg: "user not authenticated2" });
+  }
+
+  const decoded = jwt.verify(refreshToken, config.get("jwtSecret"));
+
+  req.user = decoded.user;
+
+  const payload = {
+    user: {
+      id: decoded.user.id,
+    },
+  };
+  const accessToken = jwt.sign(payload, config.get("jwtSecret"), {
+    expiresIn: "20s",
+  });
+
+  return res.status(201).json({ accessToken });
+});
 module.exports = router;
