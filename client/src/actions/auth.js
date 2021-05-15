@@ -22,11 +22,7 @@ export const handleRefreshToken = async (refreshToken, dispatch) => {
   const body = JSON.stringify({ token: refreshToken });
 
   try {
-    const res = await axios.post(
-      "https://mern-dev-connector-api.herokuapp.com/api/auth/refreshAccessToken",
-      body,
-      config
-    );
+    const res = await axios.post("/api/auth/refreshAccessToken", body, config);
 
     localStorage.setItem("token", res.data.accessToken);
 
