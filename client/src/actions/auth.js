@@ -10,16 +10,63 @@ import {
   CLEAR_PROFILE,
 } from "./types";
 import { setAlert } from "./alert";
-import setAuthToken from "../utils/setAuthToken";
+import jwt_decode from "jwt-decode";
 
-//  Load user
-export const loadUser = () => async (dispatch) => {
-  if (localStorage.token) {
-    setAuthToken(localStorage.token);
-  }
+export const handleRefreshToken = async (refreshToken, dispatch) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  const body = JSON.stringify({ token: refreshToken });
 
   try {
-    const res = await axios.get("/api/auth");
+    const res = await axios.post("/api/auth/refreshAccessToken", body, config);
+
+    localStorage.setItem("token", res.data.accessToken);
+
+    // if (res) {
+    return res.data.accessToken;
+    // }
+  } catch (err) {
+    localStorage.removeItem("refreshToken");
+    // dispatch({
+    //   type: AUTH_ERROR,
+    // });
+  }
+};
+
+export const getAccessToken = async (dispatch) => {
+  let accessToken = localStorage.getItem("token");
+  const refreshToken = localStorage.getItem("refreshToken");
+
+  const decoded = jwt_decode(accessToken);
+  const { exp } = decoded;
+
+  if (exp < (new Date().getTime() + 1) / 1000) {
+    // token is expired
+    accessToken = await handleRefreshToken(refreshToken, dispatch);
+    return accessToken;
+  } else {
+    // token is still valid
+    console.log("token is not expired");
+    return accessToken;
+  }
+};
+
+//  Load user => protect
+export const loadUser = () => async (dispatch) => {
+  const accessToken = await getAccessToken(dispatch);
+
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        "x-auth-token": accessToken,
+      },
+    };
+    const res = await axios.get("/api/auth", config);
 
     if (res) {
       dispatch({
@@ -77,7 +124,6 @@ export const login = (email, password) => async (dispatch) => {
 
   try {
     const res = await axios.post("/api/auth", body, config);
-
     dispatch({
       type: LOGIN_SUCCESS,
       payload: res.data,

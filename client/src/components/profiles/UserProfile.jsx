@@ -20,7 +20,6 @@ const UserProfile = ({
     getProfileUserId(match.params.id);
   }, [getProfileUserId]);
 
-  console.log(profile);
   // const user = profile.user;
   const sendConnection = (userId) => {
     connectionRequest(userId);

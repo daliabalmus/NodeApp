@@ -8,11 +8,22 @@ import {
   SEND_REQUEST,
 } from "./types";
 import { setAlert } from "./alert";
+import { getAccessToken } from "./auth";
 
 // SEND CONNECTION REQUEST
 export const connectionRequest = (userId) => async (dispatch) => {
+  const accessToken = await getAccessToken(dispatch);
+
+  const config = {
+    headers: {
+      "x-auth-token": accessToken,
+    },
+  };
   try {
-    const res = await axios.put("/api/users/connectionRequest/" + userId);
+    const res = await axios.put(
+      "/api/users/connectionRequest/" + userId,
+      config
+    );
     dispatch({
       type: SEND_REQUEST,
       payload: res.data,
@@ -38,8 +49,15 @@ export const connectionRequest = (userId) => async (dispatch) => {
 
 // GET CONNECTION REQUESTS
 export const getConnectionRequests = () => async (dispatch) => {
+  const accessToken = await getAccessToken(dispatch);
+
+  const config = {
+    headers: {
+      "x-auth-token": accessToken,
+    },
+  };
   try {
-    const res = await axios.get("/api/users/connectionRequests");
+    const res = await axios.get("/api/users/connectionRequests", config);
 
     dispatch({
       type: GET_REQUESTS,
@@ -64,8 +82,15 @@ export const getConnectionRequests = () => async (dispatch) => {
 
 // GET INVITATION REQUESTS
 export const getInvitations = () => async (dispatch) => {
+  const accessToken = await getAccessToken(dispatch);
+
+  const config = {
+    headers: {
+      "x-auth-token": accessToken,
+    },
+  };
   try {
-    const res = await axios.get("/api/users/sentInvitations");
+    const res = await axios.get("/api/users/sentInvitations", config);
 
     dispatch({
       type: GET_INVITATIONS,
@@ -90,8 +115,15 @@ export const getInvitations = () => async (dispatch) => {
 
 // ACCEPT CONNECTION REQUEST
 export const acceptConnection = (userId) => async (dispatch) => {
+  const accessToken = await getAccessToken(dispatch);
+
+  const config = {
+    headers: {
+      "x-auth-token": accessToken,
+    },
+  };
   try {
-    await axios.put("/api/users/acceptConnection/" + userId);
+    await axios.put("/api/users/acceptConnection/" + userId, config);
     dispatch({
       type: ACCEPT_INVITATIONS,
     });
@@ -116,8 +148,15 @@ export const acceptConnection = (userId) => async (dispatch) => {
 
 // GET ALL CONNECTIONS
 export const getConnections = () => async (dispatch) => {
+  const accessToken = await getAccessToken(dispatch);
+
+  const config = {
+    headers: {
+      "x-auth-token": accessToken,
+    },
+  };
   try {
-    const res = await axios.get("/api/users/connections");
+    const res = await axios.get("/api/users/connections", config);
 
     dispatch({
       type: GET_CONNECTIONS,

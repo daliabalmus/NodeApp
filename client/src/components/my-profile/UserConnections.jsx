@@ -13,8 +13,6 @@ const UserConnections = ({
     getConnections();
   }, [getConnections]);
 
-  console.log(userConnections);
-
   return loading && userConnections === null ? (
     <Spinner />
   ) : (

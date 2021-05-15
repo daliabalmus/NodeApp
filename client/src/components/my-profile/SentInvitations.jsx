@@ -12,8 +12,6 @@ const SentInvitations = ({ getInvitations, auth: { user }, invitations }) => {
     getInvitations();
   }, []);
 
-  console.log(invitations);
-
   return user === null ? (
     <Spinner />
   ) : (
